@@ -104,7 +104,8 @@ class MainActivity : AppCompatActivity() {
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
                 OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-                TimeUnit.MILLISECONDS)
+                TimeUnit.MILLISECONDS
+            )
             .build()
 
         // Now, enqueue your work
@@ -114,10 +115,8 @@ class MainActivity : AppCompatActivity() {
     private fun configViewModel() {
         // Get the ViewModel
         mViewModel = ViewModelProviders.of(this).get(WorkerViewModel::class.java)
-
         // Show work status
         mViewModel!!.getOutputWorkInfo().observe(this, observer)
-
     }
 
     private fun initWorkerViewModel() {
@@ -127,27 +126,33 @@ class MainActivity : AppCompatActivity() {
 
     private val observer = Observer<List<WorkInfo>> { state ->
         state?.let {
-            // Note that these next few lines grab a single WorkInfo if it exists
-            // This code could be in a Transformation in the ViewModel; they are included here
-            // so that the entire process of displaying a WorkInfo is in one location.
-
-            // If there are no matching work info, do nothing
             if (it == null || it.isEmpty()) {
                 showWorkerStatus("Empty")
             } else {
-
                 // We only care about the one output status.
                 // Every continuation has only one worker tagged TAG_OUTPUT
                 val workInfo = it.get(0)
 
-                val finished = workInfo.getState().isFinished()
-                if (finished) {
-                    showWorkerStatus("Finished")
-                } else {
-                    showWorkerStatus("Working")
+                when (workInfo.state) {
+                    WorkInfo.State.ENQUEUED -> {
+                        showWorkerStatus("ENQUEUED")
+                    }
+
+                    WorkInfo.State.RUNNING -> {
+                        showWorkerStatus("RUNNING")
+                    }
+
+                    WorkInfo.State.SUCCEEDED -> {
+                        val successOutputData = workInfo.outputData
+                        val firstValue = successOutputData.getString(WorkerExample.OUTPUT_DATA_PARAM1)
+                        val secondValue = successOutputData.getInt(WorkerExample.OUTPUT_DATA_PARAM2, -1)
+
+                        showWorkerStatus("SUCCEEDED: Output $firstValue - $secondValue")
+                    }
                 }
             }
         }
+
     }
 
     private fun showWorkerStatus(message: String) {
