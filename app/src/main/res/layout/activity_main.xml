@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.MainActivity">
+
+    <Button android:id="@+id/activity_main_button_worker_unique"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Unique Worker Power&amp;Internet"/>
+
+    <Button android:id="@+id/activity_main_button_worker_periodic"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/activity_main_button_worker_unique"
+            android:layout_height="wrap_content"
+            android:text="Periodic Worker"/>
+
+    <Button android:id="@+id/activity_main_button_worker_with_param"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/activity_main_button_worker_periodic"
+            android:layout_height="wrap_content"
+            android:text="Unique Worker with params and Delay"/>
+
+    <Button android:id="@+id/activity_main_button_worker_view_model"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/activity_main_button_worker_with_param"
+            android:layout_height="wrap_content"
+            android:text="ViewModel Worker"/>
+
+    <TextView
+            android:id="@+id/activity_main_tv_status"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:text="View Model Worker Not Launched"
+            android:textColor="@android:color/black"
+            android:layout_below="@+id/activity_main_button_worker_view_model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>
